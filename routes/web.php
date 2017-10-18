@@ -14,5 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+/*  使用者路由*/
 Route::auth();
+
+/* 任務路由 *//
+Route::get('/tasks', 'TaskController@index');
+Route::post('/task', 'TaskController@store');
+Route::delete('/task/{task}', 'TaskController@destroy');
