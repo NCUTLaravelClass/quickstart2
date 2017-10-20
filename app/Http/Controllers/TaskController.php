@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Task;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,8 +16,9 @@ class TaskController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request)
+    public function index()
     {
+
          $tasks = Task::where('user_id',  Auth::id())->get();
 
         return view('tasks.index', [
@@ -35,6 +37,16 @@ class TaskController extends Controller
         $request->user()->tasks()->create([
             'name' => $request->name,
         ]);
+
+        return redirect('/tasks');
+    }
+
+    public function destroy(Request $request, Task $task)
+    {
+        //
+        $this->authorize('destroy', $task);
+
+        $task->delete();
 
         return redirect('/tasks');
     }
